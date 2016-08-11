@@ -93,6 +93,20 @@ LOCAL_C_INCLUDES += $(common_C_INCLUDES) \
 LOCAL_SHARED_LIBRARIES := \
 	libz
 
+ifeq ($(ARCH_ARM_HAVE_NEON),true)
+   	LOCAL_CFLAGS_arm += -D__ARM_HAVE_NEON
+   	LOCAL_CFLAGS += -D__ARM_HAVE_NEON_COMMON
+  	LOCAL_WHOLE_STATIC_LIBRARIES += libpng_filter
+endif
+
+ifneq ($(strip $(MTK_PLATFORM)),)
+	LOCAL_CFLAGS += -DNOT_EMULATOR
+    LOCAL_SHARED_LIBRARIES += \
+	    libcutils \
+	    libutils 
+endif
+
+
 LOCAL_MODULE:= libpng
 
 include $(BUILD_STATIC_LIBRARY)
@@ -114,6 +128,19 @@ LOCAL_C_INCLUDES += $(common_C_INCLUDES) \
 	external/zlib
 LOCAL_SHARED_LIBRARIES := \
 	libz
+
+ifeq ($(ARCH_ARM_HAVE_NEON),true)
+   	LOCAL_CFLAGS_arm += -D__ARM_HAVE_NEON
+   	LOCAL_CFLAGS += -D__ARM_HAVE_NEON_COMMON
+  	LOCAL_STATIC_LIBRARIES += libpng_filter
+endif
+
+ifneq ($(strip $(MTK_PLATFORM)),)
+	LOCAL_CFLAGS += -DNOT_EMULATOR
+    LOCAL_SHARED_LIBRARIES += \
+	    libcutils \
+	    libutils 
+endif
 
 LOCAL_MODULE:= libpng
 
